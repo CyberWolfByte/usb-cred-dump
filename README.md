@@ -13,7 +13,7 @@ This DuckyScript leverages a staged PowerShell downloader to execute Invoke-Mimi
 ## Prerequisites
 
 - **Operating System**: Tested on Windows 10 x64, version 22H2, Kali Linux 2023.4
-- **Payload Studio**: Test with Payload Studio Pro version 1.3.1
+- **Payload Studio**: Tested with Payload Studio Pro version 1.3.1
 - **DuckyScript Version**: DuckScript 3.0 Advanced
 - **Hardware**: USB Rubber Ducky (2022)
 
